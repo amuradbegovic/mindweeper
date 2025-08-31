@@ -48,6 +48,9 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) {
     ctx->smiley_box = (SDL_FRect){smiley_x, smiley_y, ctx->smileys->w-2, ctx->smileys->h_sprites-2};
     ctx->game_state = Playing;
 
+    ctx->timer_id = 0;
+    ctx->elapsed_time = 0;
+
     return SDL_APP_CONTINUE;  /* carry on with the program! */
 }
 
@@ -66,6 +69,7 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) {
             ctx->game_state = Loss;
             UncoverAllMines(ctx->game_grid);
         } else if (IsGameGridCleared(ctx->game_grid)) ctx->game_state = Victory;
+        else if (ctx->timer_id == 0) StartTimer(ctx);
         if (ctx->game_state == Smiley_selected) RestartGame(ctx);
         break;
     case SDL_EVENT_MOUSE_MOTION:
@@ -79,6 +83,8 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) {
 
     if (InsideRect(&ctx->smiley_box, event->motion.x, event->motion.y) && (event->type == SDL_EVENT_MOUSE_BUTTON_DOWN) && (event->button.button == SDL_BUTTON_LEFT))
         ctx->game_state = Smiley_selected;
+
+    if (GameOver(ctx)) StopTimer(ctx);
 
     return SDL_APP_CONTINUE;  /* carry on with the program! */
 }
@@ -103,7 +109,7 @@ SDL_AppResult SDL_AppIterate(void *appstate) {
     DrawFrame(ctx->renderer, &top_panel_box, 2, ColorDarkGray, ColorWhite);
 
     DisplayNumber(ctx->renderer, ctx->digits, 17, 17, 3, ctx->game_grid->flags_left);
-    DisplayNumber(ctx->renderer, ctx->digits, ctx->grid_x_pos + GetRenderedGameWidth(ctx) + 10 - 16 - 40, 17, 3, 0);
+    DisplayNumber(ctx->renderer, ctx->digits, ctx->grid_x_pos + GetRenderedGameWidth(ctx) + 10 - 16 - 40, 17, 3, ctx->elapsed_time);
 
     /* smiley button */
     DrawFrame(ctx->renderer, &ctx->smiley_box, 1, ColorDarkGray, ColorDarkGray);

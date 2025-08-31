@@ -21,6 +21,8 @@ typedef struct {
     int selected_tile_i, selected_tile_j;
     SDL_FRect smiley_box;
     GameState game_state;
+    SDL_TimerID timer_id;
+    int elapsed_time;
 } GameContext;
 
 void RenderGame(GameContext *ctx);
@@ -35,3 +37,7 @@ void SelectTileFromCursorPosition(GameContext *ctx, int mouse_x, int mouse_y);
 void RestartGame(GameContext *ctx);
 
 bool GameOver(GameContext *ctx);
+
+Uint32 IncrementElapsedTime(void *ctx, SDL_TimerID timer_id, Uint32 interval);
+void StartTimer(GameContext *ctx);
+void StopTimer(GameContext *ctx);

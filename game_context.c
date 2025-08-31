@@ -37,8 +37,25 @@ void SelectTileFromCursorPosition(GameContext *ctx, int mouse_x, int mouse_y) {
 void RestartGame(GameContext *ctx) {
     ResetGameGrid(ctx->game_grid);
     ctx->game_state = Playing;
+    if (ctx->timer_id != 0) StopTimer(ctx);
+    ctx->elapsed_time = 0;
 }
 
 bool GameOver(GameContext *ctx) {
     return ctx->game_state == Victory || ctx->game_state == Loss;
+}
+
+Uint32 IncrementElapsedTime(void *ctx, SDL_TimerID timer_id, Uint32 interval) {
+    ((GameContext*)ctx)->elapsed_time++;
+    return interval;
+}
+
+void StartTimer(GameContext *ctx) {
+    ctx->elapsed_time = 1; /* behavior from original game*/
+    ctx->timer_id = SDL_AddTimer(1000, IncrementElapsedTime, ctx);
+}
+
+void StopTimer(GameContext *ctx) {
+    SDL_RemoveTimer(ctx->timer_id);
+    ctx->timer_id = 0;
 }
