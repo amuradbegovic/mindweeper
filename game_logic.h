@@ -5,6 +5,8 @@
 typedef enum  {Hidden, Flagged, Unsure, MineStepped, MineWrong, MineUncovered, UnsureClicked, Eight, Seven, Six, Five, Four, Three, Two, One, Zero} 
 DisplayedTileType;
 
+typedef enum {Beginner, Intermediate, Expert, Custom} Difficulty;
+
 typedef struct {
     bool mined;
     bool hidden;
@@ -18,6 +20,7 @@ typedef struct {
 } GameGrid;
 
 GameGrid *CreateGameGrid(int w, int h, int mine_count);
+GameGrid *CreateGameGridWithDifficulty(Difficulty dif);
 
 void ResetGameGrid(GameGrid *game_grid);
 void DestroyGameGrid(GameGrid *game_grid);

@@ -25,7 +25,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) {
         return SDL_APP_FAILURE;
     }
 
-    ctx->game_grid = CreateGameGrid(16, 16, 40);
+    ctx->game_grid = CreateGameGridWithDifficulty(Intermediate);
     int counted_mines = 0;
     for (int i = 0; i < 16; ++i)
         for (int j = 0; j < 16; ++j)

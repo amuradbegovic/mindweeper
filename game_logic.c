@@ -20,6 +20,15 @@ GameGrid *CreateGameGrid(int w, int h, int mine_count) {
     return game_grid;    
 }
 
+GameGrid *CreateGameGridWithDifficulty(Difficulty dif) {
+    switch (dif) {
+        case Beginner: return CreateGameGrid(9, 9, 10);
+        case Intermediate: return CreateGameGrid(16, 16, 40);
+        case Expert: return CreateGameGrid(30, 16, 99);
+        default: return NULL;
+    }
+}
+
 int CountNeighboringMines(GameGrid *game_grid, int row, int col) {
     int count = 0;
     for (int i = row - 1; i <= row + 1; ++i)
