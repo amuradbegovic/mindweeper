@@ -19,3 +19,12 @@ SpriteSheet *CreateSpriteSheetFromFile(SDL_Renderer *renderer, const char* filen
 bool RenderSprite(SDL_Renderer *renderer, SpriteSheet* sprite_sheet, int sprite_i, float x, float y);
 
 void DestroySpriteSheet(SpriteSheet *sprite_sheet);
+
+typedef struct {
+    SpriteSheet *digits;
+    SpriteSheet *smileys;
+    SpriteSheet *tiles;
+} IconTheme;
+
+IconTheme *CreateIconThemeFromBMPFiles(SDL_Renderer *renderer, const char *digits_file, const char *smileys_file, const char *tiles_file);
+void DestroyIconTheme(IconTheme *icon_theme);

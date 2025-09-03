@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "sprite_sheet.h"
 
@@ -34,4 +35,21 @@ void DestroySpriteSheet(SpriteSheet *sprite_sheet) {
     if (sprite_sheet == NULL) return;
     SDL_DestroyTexture(sprite_sheet->texture);
     free(sprite_sheet);
+}
+
+/* TODO: error handling */
+IconTheme *CreateIconThemeFromBMPFiles(SDL_Renderer *renderer, const char *digits_file, const char *smileys_file, const char *tiles_file) {
+    IconTheme *icon_theme = (IconTheme*)malloc(sizeof(icon_theme));
+    icon_theme->digits = CreateSpriteSheetFromFile(renderer, "textures/digits.bmp", 12);
+    icon_theme->smileys = CreateSpriteSheetFromFile(renderer, "textures/smileys.bmp", 5);
+    icon_theme->tiles = CreateSpriteSheetFromFile(renderer, "textures/tiles.bmp", 16);
+
+    return icon_theme;
+}
+
+void DestroyIconTheme(IconTheme *icon_theme) {
+    DestroySpriteSheet(icon_theme->digits);
+    DestroySpriteSheet(icon_theme->smileys);
+    DestroySpriteSheet(icon_theme->tiles);
+    free(icon_theme);
 }
