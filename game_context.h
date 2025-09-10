@@ -5,6 +5,7 @@
 #include "game_logic.h"
 #include "sprite_sheet.h"
 #include "ui.h"
+#include "config.h"
 
 typedef enum {
     Smiley_selected, Victory, Loss, Tile_selected, Playing 
@@ -26,7 +27,9 @@ typedef struct {
     int elapsed_time; 
 } GameContext;
 
-GameContext *CreateGameContext(ColorScheme color_scheme, const char *digits_file, const char *smileys_file, const char *tiles_file);
+//GameContext *CreateGameContext(ColorScheme color_scheme, const char *digits_file, const char *smileys_file, const char *tiles_file);
+GameContext *CreateGameContext(Config cfg);
+
 void DestroyGameContext(GameContext *ctx);
 bool SetContextGameGrid(GameContext *ctx, int w, int h, int mine_count);
 bool SetContextGameGridWithDifficulty(GameContext *ctx, Difficulty dif);

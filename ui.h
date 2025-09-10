@@ -10,19 +10,12 @@ extern const SDL_Color ColorDarkGray;
 extern const SDL_Color ColorLightGray; 
 
 typedef struct {
-    SDL_Color window_background;
-    SDL_Color top_panel_background;
-    SDL_Color frame_top_left;
-    SDL_Color frame_bottom_right;
-    SDL_Color margin_top_left;
+    SDL_Color window_background, top_panel_background,
+    frame_top_left, frame_bottom_right, margin_top_left;
 } ColorScheme;
 
 typedef struct {
-    SDL_FRect grid;
-    SDL_FRect top_panel;
-    SDL_FRect flags;
-    SDL_FRect smiley;
-    SDL_FRect timer;
+    SDL_FRect grid, top_panel, flags, smiley, timer;
 } GameUIRects;
 
 /* Draws a "frame" with dark grey top and left edges and white bottom and right edges around a box (as seen in the classic Minesweeper).

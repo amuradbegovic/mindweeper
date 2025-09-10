@@ -24,3 +24,12 @@ mindweeper
 a.out
 
 textures
+
+builtin_config.h
+
+vcpkg-configuration.json
+vcpkg.json
+
+CMakePresets.json
+
+

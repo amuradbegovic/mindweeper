@@ -28,7 +28,7 @@ SpriteSheet *CreateSpriteSheetFromFile(SDL_Renderer *renderer, const char* filen
 bool RenderSprite(SDL_Renderer *renderer, SpriteSheet* sprite_sheet, int sprite_i, float x, float y) {
     SDL_FRect srcrect = {0, sprite_i * sprite_sheet->h_sprites, sprite_sheet->w, sprite_sheet->h_sprites};
     SDL_FRect dstrect = {x, y, sprite_sheet->w, sprite_sheet->h_sprites};
-    SDL_RenderTexture(renderer, sprite_sheet->texture, &srcrect, &dstrect);
+    return SDL_RenderTexture(renderer, sprite_sheet->texture, &srcrect, &dstrect);
 }
 
 void DestroySpriteSheet(SpriteSheet *sprite_sheet) {
@@ -39,10 +39,19 @@ void DestroySpriteSheet(SpriteSheet *sprite_sheet) {
 
 /* TODO: error handling */
 IconTheme *CreateIconThemeFromBMPFiles(SDL_Renderer *renderer, const char *digits_file, const char *smileys_file, const char *tiles_file) {
-    IconTheme *icon_theme = (IconTheme*)malloc(sizeof(icon_theme));
-    icon_theme->digits = CreateSpriteSheetFromFile(renderer, "textures/digits.bmp", 12);
-    icon_theme->smileys = CreateSpriteSheetFromFile(renderer, "textures/smileys.bmp", 5);
-    icon_theme->tiles = CreateSpriteSheetFromFile(renderer, "textures/tiles.bmp", 16);
+    IconTheme *icon_theme = (IconTheme*)malloc(sizeof(IconTheme));
+    icon_theme->digits = CreateSpriteSheetFromFile(renderer, digits_file, 12);
+    icon_theme->smileys = CreateSpriteSheetFromFile(renderer, smileys_file, 5);
+    icon_theme->tiles = CreateSpriteSheetFromFile(renderer, tiles_file, 16);
+
+    return icon_theme;
+}
+
+IconTheme *CreateIconThemeFromSurfaces(SDL_Renderer *renderer, SDL_Surface *digits_surface, SDL_Surface *smileys_surface, SDL_Surface *tiles_surface) {
+    IconTheme *icon_theme = (IconTheme*)malloc(sizeof(IconTheme));
+    icon_theme->digits = CreateSpriteSheetFromSurface(renderer, digits_surface, 12);
+    icon_theme->smileys = CreateSpriteSheetFromSurface(renderer, smileys_surface, 5);
+    icon_theme->tiles = CreateSpriteSheetFromSurface(renderer, tiles_surface, 16);
 
     return icon_theme;
 }

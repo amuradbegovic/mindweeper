@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-
 #define SDL_MAIN_USE_CALLBACKS 1  /* use the callbacks instead of main() */
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
@@ -8,6 +5,7 @@
 #include "sprite_sheet.h"
 #include "game_context.h"
 #include "ui.h"
+#include "config.h"
 
 /* This function runs once at startup. */
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) {
@@ -17,21 +15,25 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) {
         SDL_Log("Couldn't initialize SDL: %s", SDL_GetError());
         return SDL_APP_FAILURE;
     }
-
-    ColorScheme color_scheme = {
-        .window_background = ColorLightGray,
-        .top_panel_background = ColorLightGray,
-        .frame_top_left = ColorDarkGray,
-        .frame_bottom_right = ColorWhite,
-        .margin_top_left = ColorWhite
-    };
-
-    GameContext *ctx = CreateGameContext(color_scheme, "textures/digits.bmp", "textures/smileys.bmp", "textures/tiles.bmp");
+	
+	Config cfg;
+	if (!LoadConfig(&cfg, "mindweeper.ini")) {
+		SDL_Log("%s: Error loading config file. ", argv[0]);
+	#ifdef ENABLE_BUILTIN_CONFIG
+		SDL_Log("%s: Falling back to built in configuration", argv[0]);
+		cfg = GetBuiltInConfig();
+	#else 
+		return SDL_APP_FAILURE;
+	#endif 
+	}
+	
+	GameContext *ctx = CreateGameContext(cfg);
     if (ctx == NULL) {
         SDL_Log("Failed to create game context.");
         return SDL_APP_FAILURE;
     }
     SetContextGameGridWithDifficulty(ctx, Expert);
+	Config_DestroySurfaces(&cfg);
 
     *appstate = ctx;
     return SDL_APP_CONTINUE;  /* carry on with the program! */

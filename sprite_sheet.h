@@ -27,4 +27,5 @@ typedef struct {
 } IconTheme;
 
 IconTheme *CreateIconThemeFromBMPFiles(SDL_Renderer *renderer, const char *digits_file, const char *smileys_file, const char *tiles_file);
+IconTheme *CreateIconThemeFromSurfaces(SDL_Renderer *renderer, SDL_Surface *digits_surface, SDL_Surface *smileys_surface, SDL_Surface *tiles_surface);
 void DestroyIconTheme(IconTheme *icon_theme);

@@ -1,19 +1,18 @@
 #include <stdlib.h>
-#include <stdio.h>
 
 #include "game_logic.h"
 #include "game_context.h"
 #include "ui.h"
 
-GameContext *CreateGameContext(ColorScheme color_scheme, const char *digits_file, const char *smileys_file, const char *tiles_file) {
+GameContext *CreateGameContext(Config cfg) {
     GameContext *ctx = (GameContext *)malloc(sizeof(GameContext));
 
     if (!SDL_CreateWindowAndRenderer("Mindweeper", 0, 0, 0, &ctx->window, &ctx->renderer)) {
         SDL_Log("Couldn't create window/renderer: %s", SDL_GetError());
         return NULL;
     }
-    ctx->color_scheme = color_scheme;
-    ctx->icon_theme = CreateIconThemeFromBMPFiles(ctx->renderer, "textures/digits.bmp", "textures/smileys.bmp", "textures/tiles.bmp");
+    ctx->color_scheme = cfg.color_scheme;
+    ctx->icon_theme = CreateIconThemeFromSurfaces(ctx->renderer, cfg.digits_surface, cfg.smileys_surface, cfg.tiles_surface);
     if (ctx->icon_theme == NULL) {
         SDL_Log("Failed to load game icons. Please check if bitmap files are present in the right locations.");
         return NULL;
