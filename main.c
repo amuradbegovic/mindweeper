@@ -7,6 +7,7 @@
 #include "ui.h"
 #include "config.h"
 
+
 /* This function runs once at startup. */
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) {
     SDL_SetAppMetadata("Mindweeper", "1.0", "org.amuradbegovic.games");
@@ -28,12 +29,15 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) {
 	}
 	
 	GameContext *ctx = CreateGameContext(cfg);
+
     if (ctx == NULL) {
         SDL_Log("Failed to create game context.");
         return SDL_APP_FAILURE;
     }
+
     SetContextGameGridWithDifficulty(ctx, Expert);
-	Config_DestroySurfaces(&cfg);
+
+	Config_FreeBuffers(&cfg);
 
     *appstate = ctx;
     return SDL_APP_CONTINUE;  /* carry on with the program! */

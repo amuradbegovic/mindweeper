@@ -6,7 +6,7 @@ find_package(SDL3_image CONFIG REQUIRED)
 find_package(SDL3_ttf CONFIG REQUIRED)
 find_package(unofficial-inih CONFIG REQUIRED)
 
-add_executable(mindweeper main.c game_logic.c sprite_sheet.c ui.c game_context.c config.c)
+add_executable(mindweeper main.c game_logic.c sprite_sheet.c ui.c game_context.c config.c builtin_config.c)
 
 set_property(TARGET mindweeper PROPERTY C_STANDARD 11)
 

@@ -1,7 +1,7 @@
 #!/bin/sh
 
-cat <<EOT > builtin_config.h
-#pragma once
+cat <<EOT > builtin_config.c
+#ifdef ENABLE_BUILTIN_CONFIG
 #include "config.h"
 
 ColorScheme default_colors = (ColorScheme){
@@ -14,8 +14,9 @@ ColorScheme default_colors = (ColorScheme){
 
 EOT
 
-xxd -i textures/digits.bmp >> builtin_config.h
-printf "\n" >> builtin_config.h
-xxd -i textures/smileys.bmp >> builtin_config.h
-printf "\n" >> builtin_config.h
-xxd -i textures/tiles.bmp >> builtin_config.h
+xxd -i textures/digits.bmp >> builtin_config.c
+printf "\n" >> builtin_config.c
+xxd -i textures/smileys.bmp >> builtin_config.c
+printf "\n" >> builtin_config.c
+xxd -i textures/tiles.bmp >> builtin_config.c
+printf "\n#endif" >> builtin_config.c

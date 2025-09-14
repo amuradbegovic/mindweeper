@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "game_logic.h"
 #include "game_context.h"
@@ -12,7 +13,11 @@ GameContext *CreateGameContext(Config cfg) {
         return NULL;
     }
     ctx->color_scheme = cfg.color_scheme;
-    ctx->icon_theme = CreateIconThemeFromSurfaces(ctx->renderer, cfg.digits_surface, cfg.smileys_surface, cfg.tiles_surface);
+    ctx->icon_theme = CreateIconThemeFromBMPArrays(ctx->renderer, cfg.digits_bmp, cfg.digits_bmp_len, 
+																  cfg.smileys_bmp, cfg.smileys_bmp_len,
+																  cfg.tiles_bmp, cfg.tiles_bmp_len);
+
+
     if (ctx->icon_theme == NULL) {
         SDL_Log("Failed to load game icons. Please check if bitmap files are present in the right locations.");
         return NULL;
@@ -21,6 +26,7 @@ GameContext *CreateGameContext(Config cfg) {
     ctx->game_grid = NULL;
     ctx->timer_id = 0;
     ctx->elapsed_time = 0;
+
     return ctx;
 }
 
