@@ -1,12 +1,8 @@
-#include <SDL3/SDL_iostream.h>
-#include <SDL3/SDL_surface.h>
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
 
 #include <ini.h>
-#include <SDL3/SDL_pixels.h>
-#include <SDL3_image/SDL_image.h>
 
 #include "config.h"
 
@@ -53,6 +49,7 @@ unsigned char *read_file(const char *filename, unsigned int *size) {
 /* adapted from the example found in the  */
 static int handler(void* cfg, const char* section, const char* name, const char* value) {
     Config* pconfig = (Config*)cfg;
+	pconfig->allocated_buffers = true;
 
     #define MATCH(s, n) strcmp(section, s) == 0 && strcmp(name, n) == 0
 
@@ -91,37 +88,15 @@ bool LoadConfig(Config *config, const char *filename) {
 	return true;
 }
 
-
 bool LoadConfigFromDefaultLocation(Config *config) {
 	return LoadConfig(config, "");
 }
 
 void Config_FreeBuffers(Config *config) {
-	free(config->digits_bmp);
-	free(config->smileys_bmp);
-	free(config->tiles_bmp);
-}
-
-void *dup_array(const void *src, size_t n, size_t size) {
-	void *dest = malloc(n * size);
-	if (dest == NULL) return NULL;
-	return memcpy(dest, src, n);
-} 
-
-Config GetBuiltInConfig() {
-
-	Config cfg;
-//#define ENABLE_BUILTIN_CONFIG
-#ifdef ENABLE_BUILTIN_CONFIG
-	cfg.color_scheme = default_colors;
-	cfg.digits_bmp = (unsigned char *)dup_array(textures_digits_bmp, textures_digits_bmp_len, sizeof(unsigned char)); 
-	cfg.digits_bmp_len = textures_digits_bmp_len;
-	cfg.smileys_bmp = (unsigned char *)dup_array(textures_smileys_bmp, textures_smileys_bmp_len, sizeof(unsigned char)); 
-	cfg.smileys_bmp_len = textures_smileys_bmp_len;
-	cfg.tiles_bmp = (unsigned char *)dup_array(textures_tiles_bmp, textures_tiles_bmp_len, sizeof(unsigned char)); 
-	cfg.tiles_bmp_len = textures_tiles_bmp_len;
-#else 
-	SDL_Log("Error: built in config not enabled. Enable it by defining the ENABLE_BUILTIN_CONFIG macro during compile-time.");
-#endif
-	return cfg;
+	if (config->allocated_buffers) {
+		free(config->digits_bmp);
+		free(config->smileys_bmp);
+		free(config->tiles_bmp);
+	}
+	config->allocated_buffers = false;
 }

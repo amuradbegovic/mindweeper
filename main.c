@@ -7,7 +7,6 @@
 #include "ui.h"
 #include "config.h"
 
-
 /* This function runs once at startup. */
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) {
     SDL_SetAppMetadata("Mindweeper", "1.0", "org.amuradbegovic.games");
@@ -22,7 +21,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) {
 		SDL_Log("%s: Error loading config file. ", argv[0]);
 	#ifdef ENABLE_BUILTIN_CONFIG
 		SDL_Log("%s: Falling back to built in configuration", argv[0]);
-		cfg = GetBuiltInConfig();
+		cfg = builtin_config; 
 	#else 
 		return SDL_APP_FAILURE;
 	#endif 
