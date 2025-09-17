@@ -26,6 +26,9 @@ a.out
 textures
 
 builtin_config.c
+src/builtin_config.c
+
+tools/make_builtin_cfg
 
 vcpkg-configuration.json
 vcpkg.json
