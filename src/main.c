@@ -17,16 +17,24 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) {
     }
 	
 	Config cfg;
-	if (!LoadConfig(&cfg, "mindweeper.ini")) {
-		SDL_Log("%s: Error loading config file. ", argv[0]);
-	#ifdef ENABLE_BUILTIN_CONFIG
-		SDL_Log("%s: Falling back to built in configuration", argv[0]);
-		cfg = builtin_config; 
-	#else 
-		return SDL_APP_FAILURE;
-	#endif 
+	if (argc > 1) {
+		if (!LoadConfig(&cfg, argv[1])) {
+		SDL_Log("Error: failed to load config file. ");
+		#ifdef ENABLE_BUILTIN_CONFIG
+			SDL_Log("Falling back to built in configuration");
+			cfg = builtin_config; 
+		#else 
+			return SDL_APP_FAILURE;
+		#endif 
+		}
+	} else {
+		#ifdef ENABLE_BUILTIN_CONFIG 
+		cfg = builtin_config;
+		#else 
+		SDL_Log("Error: no config file provided and built-in config disabled.");
+		#endif
 	}
-	
+
 	GameContext *ctx = CreateGameContext(cfg);
 
     if (ctx == NULL) {
@@ -34,7 +42,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) {
         return SDL_APP_FAILURE;
     }
 
-    SetContextGameGridWithDifficulty(ctx, Expert);
+    SetContextGameGridWithDifficulty(ctx, Intermediate);
 
 	Config_FreeBuffers(&cfg);
 

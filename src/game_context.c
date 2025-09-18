@@ -13,10 +13,10 @@ GameContext *CreateGameContext(Config cfg) {
         return NULL;
     }
     ctx->color_scheme = cfg.color_scheme;
+
     ctx->icon_theme = CreateIconThemeFromBMPArrays(ctx->renderer, cfg.digits_bmp, cfg.digits_bmp_len, 
 																  cfg.smileys_bmp, cfg.smileys_bmp_len,
 																  cfg.tiles_bmp, cfg.tiles_bmp_len);
-
 
     if (ctx->icon_theme == NULL) {
         SDL_Log("Failed to load game icons. Please check if bitmap files are present in the right locations.");

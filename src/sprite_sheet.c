@@ -63,6 +63,7 @@ IconTheme *CreateIconThemeFromBMPArrays(SDL_Renderer *renderer, unsigned char *d
 																unsigned char *smileys_bmp, unsigned int smileys_bmp_len,
 																unsigned char *tiles_bmp, unsigned int tiles_bmp_len) {
     IconTheme *icon_theme = (IconTheme*)malloc(sizeof(IconTheme));
+
 	icon_theme->digits = CreateSpriteSheetFromArray(renderer, digits_bmp, digits_bmp_len, 12);
     icon_theme->smileys = CreateSpriteSheetFromArray(renderer, smileys_bmp, smileys_bmp_len, 5);
     icon_theme->tiles = CreateSpriteSheetFromArray(renderer, tiles_bmp, tiles_bmp_len, 16);

@@ -23,7 +23,8 @@ mindweeper.exe
 mindweeper 
 a.out
 
-textures
+assets/winmine
+assets/default
 
 builtin_config.c
 src/builtin_config.c

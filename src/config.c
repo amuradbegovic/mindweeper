@@ -53,7 +53,7 @@ static int handler(void* cfg, const char* section, const char* name, const char*
 
     #define MATCH(s, n) strcmp(section, s) == 0 && strcmp(name, n) == 0
 
-	#define TRY_LOADING(some_bmp)  pconfig->some_bmp = read_file(value, &pconfig->some_bmp##_len); \
+	#define TRY_LOADING(some_bmp) pconfig->some_bmp = read_file(value, &pconfig->some_bmp##_len); \
 		if (pconfig->some_bmp == NULL) { Config_FreeBuffers(pconfig); return -1; }
 
 	/* colors */
@@ -78,9 +78,11 @@ static int handler(void* cfg, const char* section, const char* name, const char*
 	} else {
         return 0;  /* unknown section/name, error */
     }
+	
 
     return 1;
 }
+
 
 bool LoadConfig(Config *config, const char *filename) {
 	if (ini_parse(filename, handler, config) < 0)
