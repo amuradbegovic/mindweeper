@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(mindweeper)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 find_package(SDL3 CONFIG REQUIRED)
 find_package(SDL3_image CONFIG REQUIRED)
 find_package(SDL3_ttf CONFIG REQUIRED)
@@ -20,6 +22,7 @@ target_include_directories(mindweeper PUBLIC
                           "${PROJECT_BINARY_DIR}"
 						  "src"
                           "${PROJECT_SOURCE_DIR}/extern/inih"
+                          "${PROJECT_SOURCE_DIR}/extern/sokol"
                           )
 
 target_link_libraries(mindweeper SDL3::SDL3 SDL3_image::SDL3_image SDL3_ttf::SDL3_ttf inih)

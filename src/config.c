@@ -2,7 +2,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-#include <ini.h>
+#include "ini.h"
 
 #include "config.h"
 

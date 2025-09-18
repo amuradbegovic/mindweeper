@@ -2,6 +2,11 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 
+#include <string.h>
+
+#define SOKOL_IMPL 
+#include "sokol_args.h"
+
 #include "sprite_sheet.h"
 #include "game_context.h"
 #include "ui.h"
@@ -15,10 +20,15 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) {
         SDL_Log("Couldn't initialize SDL: %s", SDL_GetError());
         return SDL_APP_FAILURE;
     }
+
+	sargs_setup(&(sargs_desc){
+		.argc = argc,
+        .argv = argv
+	});
 	
 	Config cfg;
-	if (argc > 1) {
-		if (!LoadConfig(&cfg, argv[1])) {
+	if (sargs_exists("--config")) {
+		if (!LoadConfig(&cfg, sargs_value("--config"))) {
 		SDL_Log("Error: failed to load config file. ");
 		#ifdef ENABLE_BUILTIN_CONFIG
 			SDL_Log("Falling back to built in configuration");
@@ -35,6 +45,15 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) {
 		#endif
 	}
 
+	Difficulty dif = Intermediate;
+	if (sargs_exists("--difficulty")) {
+		const char *dif_string = sargs_value("--difficulty");
+		if (strcmp(dif_string, "beginner") == 0) dif = Beginner;
+		else if (strcmp(dif_string, "intermediate") == 0) dif = Intermediate;
+		else if (strcmp(dif_string, "expert") == 0) dif = Expert;
+		else SDL_Log("Error: invalid difficulty provided. Defaulting to Intermediate.");
+	}
+
 	GameContext *ctx = CreateGameContext(cfg);
 
     if (ctx == NULL) {
@@ -42,7 +61,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char *argv[]) {
         return SDL_APP_FAILURE;
     }
 
-    SetContextGameGridWithDifficulty(ctx, Intermediate);
+    SetContextGameGridWithDifficulty(ctx, dif);
 
 	Config_FreeBuffers(&cfg);
 
