@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Mindweeper</title>
+		<link rel="stylesheet" href="index.css" />
+		<link rel="stylesheet" href="emscripten.css" />
+	</head>
+	<body>
+		<header>
+			<h1>Mindweeper</h1>
+			<p>
+			Mindweeper is a clone of the famous Windows Minesweeper game that was previously included in the Microsoft Windows operating system. This clone is customizable, open source and cross-platform. It supports original game's assets so it's capable of providing a basically pixel-perfect classic Minesweeper experience to players. 
+			</p>
+		</header>
+		<p>Choose game difficulty: </p>
+		<ul class="menu">
+			<li><a href="index.html?--difficulty=beginner" class="win-button">Beginner</a></li>
+			<li><a href="index.html?--difficulty=intermediate" class="win-button">Intermediate</a></li>
+			<li><a href="index.html?--difficulty=expert" class="win-button">Expert</a></li>
+		</ul>
+
+		<canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex=-1></canvas>
+
+		<p>
+		This web version of the game is proudly powered by <a href="https://emscripten.org">Emscripten</a>. Emscripten makes it possible for developers to compile their existing native C and C++ projects to WebAssembly, allowing them to be ran under browsers or Node.js.
+		</p>
+		<p>
+		Game assets are taken from <a href="https://github.com/DragonSWDev/dsdmine">dsdmine</a>, an MIT-licensed clone of Windows Minesweeper. It's a very similar project to mine, albeit written in C++ (even uses <code>.ini</code> config files!). In the future I'll create my own assets that fit my tastes better and release a guide for using classic Windows Minesweeper's assets with this implementation.
+		</p>
+		<p><a href="https://github.com/amuradbegovic/mindweeper">Source code</a> is hosted on GitHub and released under the 2-clause BSD license.</p>
+		
+		<footer>
+			&copy; Adnan Muradbegović 2025
+		</footer>
+		<script async type="text/javascript" src="mindweeper.js"></script>
+	</body>
+</html>
