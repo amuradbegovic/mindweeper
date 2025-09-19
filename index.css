@@ -1,0 +1,28 @@
+body {
+	background-color: #c0c0c0;
+}
+
+ul.menu {
+	display: flex;
+	list-style-type: none;
+	padding: 0;
+	margin-bottom: 10px;
+}
+
+a {
+	color: #000000;
+}
+
+a.win-button {
+	border-style: solid !important;
+	border-width: 2px !important;
+	border-top: #ffffff;
+	border-left: #ffffff;
+	border-bottom: #808080;
+	border-right: #808080;
+	text-decoration: none;
+	padding: 2px 10px 2px 10px;
+	font-family: Sans;
+	font-size: 14px;
+	margin: 0px 4px 0px 0px;
+}
